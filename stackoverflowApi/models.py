@@ -1,7 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Question(models.Model):
     question = models.CharField(max_length=300)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     user_name = models.CharField(max_length=100)
     excerpt = models.CharField(max_length=300)
     vote_count = models.IntegerField(default=0)

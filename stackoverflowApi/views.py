@@ -9,6 +9,7 @@ from .pagination import MyPageNumberPagination
 from bs4 import BeautifulSoup
 import requests
 from rest_framework.permissions import  IsAuthenticated
+from account.permissions import UserPermission
 
 
 
@@ -17,20 +18,17 @@ class QuestionAPI(ListAPIView):
     serializer_class = QuestionSerializer
     pagination_class    = MyPageNumberPagination
 
-    permission_classes = [IsAuthenticated]
-
 
 class QuestionCreateAPI(CreateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-    permission_classes = [IsAuthenticated]
 
     
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data) 
                   
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)   # successfully CREATED
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) # invalid data
     
@@ -42,7 +40,7 @@ class QuestionUpdateAPI(RetrieveUpdateDestroyAPIView):
     lookup_field        = 'id'                                      # set the lookup field to id
 
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, UserPermission]
     
     def retrieve(self, request, id=None):
         try:                                                        # try to get the question
@@ -51,6 +49,8 @@ class QuestionUpdateAPI(RetrieveUpdateDestroyAPIView):
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)   # if not found, return 404
         
         serializer = QuestionSerializer(question)                     # serialize the question
+        self.check_object_permissions(request, question)
+
         return Response(serializer.data)                            # return the serialized question
     
     
@@ -61,7 +61,7 @@ class QuestionUpdateAPI(RetrieveUpdateDestroyAPIView):
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)
         
         serializer = QuestionSerializer(question, data=request.data)  # convert complex data by passing into serializer 
-        
+        self.check_object_permissions(request, question)
         if serializer.is_valid():                                   # check for validation of data
             serializer.save()
             return Response(serializer.data)                        # return updated the JSON response
@@ -74,6 +74,7 @@ class QuestionUpdateAPI(RetrieveUpdateDestroyAPIView):
         except Question.DoesNotExist:
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)  # return 404 if not found
         
+        self.check_object_permissions(request, question)
         question.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)         # return 204 if deleted
 
@@ -90,7 +91,7 @@ def latest(request):
             for que in questions:
                 q = que.select_one('.question-hyperlink').getText()
                 bounty = que.select_one('.bounty-indicator').getText()   
-                user = que.select_one('.user-details').getText(strip=True)
+                user_name = que.select_one('.user-details').getText(strip=True)
                 vote_count = que.select_one('.vote-count-post').getText()
                 views = que.select_one('.views').attrs['title']
                 tags = [i.getText() for i in (que.select('.post-tag'))]
@@ -102,7 +103,7 @@ def latest(request):
                 question = Question()
                 question.question = q
                 question.bounty = bounty
-                question.user = user
+                question.user_name = user_name
                 question.vote_count = vote_count
                 question.views = views
                 question.tags = tags
