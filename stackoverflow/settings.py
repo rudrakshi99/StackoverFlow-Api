@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-64qyjls%)4$!dp+1nq-gp&w5_y&-1tt6^+s=io18(t3+9+dz#h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['198.211.99.20', 'localhost', '127.0.0.1', '0.0.0.0', ]
 
 
 # Application definition
@@ -41,10 +41,13 @@ INSTALLED_APPS = [
     'drf_yasg',
     'account',
     'rest_framework.authtoken',
-    'stackoverflowApi'
+    'stackoverflowApi',
+    'corsheaders',
+
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -115,6 +118,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
+CORS_ORIGIN_ALLOW_ALL = True 
+CORS_ALLOW_CREDENTIALS = True
 
 LANGUAGE_CODE = 'en-us'
 
