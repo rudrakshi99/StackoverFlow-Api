@@ -14,7 +14,7 @@ It is a stackoverflow api made by scraping the stackoverflow website using beaut
 - **API Testing & Documentation:** Swagger
 - **Version Control**: Git and GitHub
 - **Database**: PostgreSQL
-- **Hoating** - AWS EC2
+- **Hosting** - AWS EC2
 
 ### Backend Setup Instructions
 
