@@ -255,4 +255,5 @@ pyvenv.cfg
 .venv
 pip-selfcheck.json
 
+.env
 # End of https://www.toptal.com/developers/gitignore/api/python,django,virtualenv
