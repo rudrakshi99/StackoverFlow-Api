@@ -7,7 +7,7 @@ It is a stackoverflow api made by scraping the stackoverflow website using beaut
 <img src="https://img.shields.io/badge/python%20-%2314354C.svg?&style=for-the-badge&logo=python&logoColor=white"/> <img src="https://img.shields.io/badge/django%20-%23092E20.svg?&style=for-the-badge&logo=django&logoColor=white"/>  <img src="https://img.shields.io/badge/markdown-%23000000.svg?&style=for-the-badge&logo=markdown&logoColor=white"/><img src="https://img.shields.io/badge/github%20-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/> <img src="https://img.shields.io/badge/postgres-0B96B2?style=for-the-badge&logo=postgresql&logoColor=white"/> 
 
 [![View in Swagger](http://jessemillar.github.io/view-in-swagger-button/button.svg)](http://13.59.73.71/swagger/) 
-
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://documenter.getpostman.com/view/14143990/Tzz8rGvb)
 
 - **Backend**: Django Rest Framework
 - **IDE**: VS Code
